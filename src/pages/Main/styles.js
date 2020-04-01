@@ -107,6 +107,7 @@ export const FinalFooter = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 180px;
+  margin-bottom: 20px;
 `;
 
 export const CopyRight = styled.h1`
@@ -182,7 +183,7 @@ export const ResultArea = styled.div`
 `;
 
 export const ItemArea = styled.div`
-  background: #ddd;
+  background: #eee;
   border-width: 1px;
   border-radius: 4px;
   width: 50%;

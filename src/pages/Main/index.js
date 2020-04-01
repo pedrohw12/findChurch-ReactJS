@@ -124,11 +124,14 @@ function Main() {
         {result !== "zero" &&
         <ResultArea>
         
-          <h1 style={{color: "#0097e6", marginBottom: 25}}> Igrejas encontradas </h1>
+          <h1 style={{color: "#00a8ff", marginBottom: 25}}> Igrejas encontradas </h1>
           <ItemArea>
-            <Info>Name: { result.name } </Info>
-            <Info> Localization: { result.locale } </Info>
-            <Info> Members: { result.numberMembers } </Info>
+            <Info>Nome: </Info>
+            <p style={{marginLeft: 4, marginBottom: 8}}> { result.name } </p>
+            <Info>Região: </Info>
+            <p style={{marginLeft: 4, marginBottom: 8}}> { result.locale } </p>
+            <Info>Número de membros: </Info>
+            <p style={{marginLeft: 4, marginBottom: 8}}> { result.numberMembers} membros </p>
           </ItemArea>  
         
         </ResultArea>
