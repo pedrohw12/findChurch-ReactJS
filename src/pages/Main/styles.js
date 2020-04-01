@@ -36,7 +36,7 @@ export const HomeButton = styled(Link)`
   }
 `;
 
-export const CadastroButton = styled(Link)`
+export const CadastroButton = styled.button`
   background: #00a8ff;
   border: none;
   font-size: 20px;
@@ -172,3 +172,28 @@ export const ModalClose = styled.button`
   position: absolute;
 `;
 
+export const ResultArea = styled.div`
+  background: #fff;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ItemArea = styled.div`
+  background: #ddd;
+  border-width: 1px;
+  border-radius: 4px;
+  width: 50%;
+  margin: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+export const Info = styled.h1`
+  margin: 5px;
+  font-size: 14px;
+`;

@@ -20,6 +20,9 @@ import {
   ModalInput,
   ModalButton,
   ModalClose,
+  ResultArea,
+  ItemArea,
+  Info
 } from './styles';
 
 function Main() {
@@ -27,6 +30,8 @@ function Main() {
   const [ name, setName ] = useState();
   const [ locale, setLocale ] = useState();
   const [ numberMembers, setNumberMembers ] = useState();
+  const [ search, setSearch ] = useState();
+  const [ result, setResult ] = useState('zero');
 
   function turnOnOff() {
     setOpenModal(!openModal);
@@ -37,11 +42,20 @@ function Main() {
       const response = await api.get('/v1/churces');
 
       if (response.status === 200) {
-        console.log(response.data)
+        // console.log(response.data)
       }
     } catch ({ response }) {
       console.log(response, ' ERROR')
     }
+  }
+
+  async function getChurceSearch() {
+      const response = await api.get(`/v1/churces/${search}`);
+
+        const data = response.data;
+        console.log(data.name);
+        setResult(response.data);
+        console.log(result);
   }
 
   async function handleSubmit() {
@@ -100,11 +114,26 @@ function Main() {
       <SearchArea>
         <SearchImg src={require("../../assets/praying.png")} />
         <SearchTitle> Informe o nome da igreja </SearchTitle>
-        <SearchInput placeholder="Pesquisar igreja..." />
-        <SearchButton>
+        <SearchInput onChange={e => setSearch(e.target.value)} placeholder="Pesquisar igreja..." />
+        <SearchButton type="submit" onClick={()=> getChurceSearch()}>
           Procurar
         </SearchButton>
       </SearchArea>
+
+      
+        {result !== "zero" &&
+        <ResultArea>
+        
+          <h1 style={{color: "#0097e6", marginBottom: 25}}> Igrejas encontradas </h1>
+          <ItemArea>
+            <Info>Name: { result.name } </Info>
+            <Info> Localization: { result.locale } </Info>
+            <Info> Members: { result.numberMembers } </Info>
+          </ItemArea>  
+        
+        </ResultArea>
+        }
+      
 
       <FinalFooter>
         <CopyRight>
