@@ -22,19 +22,23 @@ import {
   ModalClose,
   ResultArea,
   ItemArea,
-  Info
+  Info,
+  ModalSuccess
 } from './styles';
 
 function Main() {
-  const [ openModal, setOpenModal ] = useState(false);
-  const [ name, setName ] = useState();
+  const [ openModal, setOpenModal ] = useState(true);
+  const [ name, setName ] = useState("");
   const [ locale, setLocale ] = useState();
   const [ numberMembers, setNumberMembers ] = useState();
   const [ search, setSearch ] = useState();
   const [ result, setResult ] = useState('zero');
+  const [ success, setSuccess ] = useState(false);
+  const [ show, setShow ] = useState(true);
 
   function turnOnOff() {
     setOpenModal(!openModal);
+    setShow(true);
   } 
 
   async function getChurces() {
@@ -50,16 +54,20 @@ function Main() {
   }
 
   async function getChurceSearch() {
+    try {
       const response = await api.get(`/v1/churces/${search}`);
-
         const data = response.data;
         console.log(data.name);
         setResult(response.data);
         console.log(result);
+        setSearch("");
+    } catch (error) {
+      setResult("error")
+    }
   }
 
   async function handleSubmit() {
-    try {
+    // try {
       const response = await api.post('/v1/churces', {
         name,
         locale,
@@ -70,9 +78,20 @@ function Main() {
         console.log('RES: ', response.data);
       }
 
-    } catch({response}) {
-      console.log(response, ' ERROR');
-    }
+      setName("");
+      setLocale("");
+      setNumberMembers("");
+      setSuccess(true);
+      setShow(false);
+      if ( response.status === 400) {
+        setSuccess(false);
+        setShow(false);
+      }
+    // } catch({response}) {
+    //   console.log(response, ' ERROR');
+    //   setSuccess(false)
+    //   setShow(false);
+    // }
   }
 
   useEffect(() => {
@@ -84,12 +103,20 @@ function Main() {
       {openModal &&
       <ModalArea props={openModal}>
         <ModalTitle> Cadastrar igreja </ModalTitle>
-          <ModalInput onChange={ e => setName(e.target.value) } placeholder="Nome da igreja" />
-          <ModalInput onChange={ e => setLocale(e.target.value) } placeholder="Onde ela está localizada ?" style={{marginTop: 100}} />
-          <ModalInput onChange={ e => setNumberMembers(e.target.value) } placeholder="Informe o número de membros" style={{marginTop: 150}} />
-          <ModalButton type="submit" onClick={() => handleSubmit()}>
-            Salvar
-          </ModalButton>
+          <ModalInput onChange={ e => setName(e.target.value) } placeholder="Nome da igreja" value={name} />
+          <ModalInput onChange={ e => setLocale(e.target.value) } placeholder="Onde ela está localizada ?" value={locale} style={{marginTop: 100}} />
+          <ModalInput onChange={ e => setNumberMembers(e.target.value) } placeholder="Informe o número de membros" value={numberMembers} style={{marginTop: 150}} />
+          {success && !show &&
+            <ModalSuccess> Cadastro realizado com sucesso ! </ModalSuccess>
+          }
+          {!success && !show &&
+            <ModalSuccess> Erro. ! </ModalSuccess>
+          }
+          {show &&
+            <ModalButton type="submit" onClick={() => handleSubmit()}>
+              Salvar
+            </ModalButton>
+          }
         <ModalClose onClick={ () => turnOnOff() }>
           X
         </ModalClose>
@@ -114,14 +141,14 @@ function Main() {
       <SearchArea>
         <SearchImg src={require("../../assets/praying.png")} />
         <SearchTitle> Informe o nome da igreja </SearchTitle>
-        <SearchInput onChange={e => setSearch(e.target.value)} placeholder="Pesquisar igreja..." />
+        <SearchInput onChange={e => setSearch(e.target.value)} placeholder="Pesquisar igreja..." value={search} />
         <SearchButton type="submit" onClick={()=> getChurceSearch()}>
           Procurar
         </SearchButton>
       </SearchArea>
 
       
-        {result !== "zero" &&
+        {result !== "error" && result !== "zero" &&
         <ResultArea>
         
           <h1 style={{color: "#00a8ff", marginBottom: 25}}> Igrejas encontradas </h1>
@@ -133,11 +160,15 @@ function Main() {
             <Info>Número de membros: </Info>
             <p style={{marginLeft: 4, marginBottom: 8}}> { result.numberMembers} membros </p>
           </ItemArea>  
-        
+        </ResultArea>
+        }
+
+        {result === "error" &&
+        <ResultArea>
+          <h1 style={{color: "#00a8ff", marginBottom: 25}}> Nada encontrado </h1>  
         </ResultArea>
         }
       
-
       <FinalFooter>
         <CopyRight>
           @ Copyright 2020 - Find Church

@@ -145,6 +145,12 @@ export const ModalInput = styled.input`
   z-index: 15;
 `;
 
+export const ModalSuccess = styled.p`
+  position: absolute;
+  z-index: 50;
+  margin-top: 215px;
+`;
+
 export const ModalButton = styled.button`
   width: 300px;
   height: 50px;
