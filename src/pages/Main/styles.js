@@ -80,6 +80,7 @@ export const SearchInput = styled.input`
   width: 40%;
   border-style: none;
   padding: 10px;
+  padding-left: 20px;
   z-index: 10;
   background: #eee;
 `;
@@ -203,4 +204,17 @@ export const ItemArea = styled.div`
 export const Info = styled.h1`
   margin: 5px;
   font-size: 14px;
+`;
+
+export const ButtonEdit = styled.button`
+  position: absolute;
+  top: 0;
+  right: 350px;
+  background: #0097e6;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 0 4px 0 10px;
+  color: #fff;
+  font-weight: 700;
 `;
