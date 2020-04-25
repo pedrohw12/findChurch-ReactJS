@@ -199,6 +199,7 @@ export const ItemArea = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 `;
 
 export const Info = styled.h1`
@@ -209,7 +210,7 @@ export const Info = styled.h1`
 export const ButtonEdit = styled.button`
   position: absolute;
   top: 0;
-  right: 350px;
+  right: 0;
   background: #0097e6;
   padding: 10px;
   border: none;
